@@ -1,19 +1,22 @@
-const express = require("express");
-const cors = require("cors");
+import express from "express";
+import cors from "cors";
 
-const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
+import Connection from "./database/db.js";
+import Routes from "./routes/route.js";
 
 const app = express();
-const port = process.env.PORT || 5000;
 
-// middlewares
 app.use(cors());
-app.use(express.json());
 
-app.get("/", (req, res) => {
-  res.send("Server is running...");
-});
+app.use(bodyParser.json({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: true }));
 
-app.listen(port, () => {
-  console.log(`Task Server is running...on ${port}`);
-});
+app.use("/", Routes);
+
+const PORT = 8000;
+
+Connection();
+
+app.listen(PORT, () =>
+  console.log(`Your server is running successfully on PORT ${PORT}`)
+);
